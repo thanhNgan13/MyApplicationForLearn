@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">My Application For Learn</string>
+    <!-- create_an_account strings -->
+    <string name="ek_img_content">ExportKit Image</string>
+    <string name="login_string">Login</string>
+    <string name="or_connect_with_string">or connect with</string>
+    <string name="login_ek1_string">Login</string>
+    <string name="by_signing_in_you_are_agreeing_our_term_and_privacy_policy_string">By signing in you are agreeing our Term and privacy policy</string>
+    <string name="login_ek2_string">Login</string>
+    <string name="email_address_string">Email Address</string>
+    <string name="password_string">Password</string>
+    <string name="register_string">Register</string>
+    <string name="forget_password_string">Forget password</string>
+    <string name="remember_password_string">Remember password</string>
+    <string name="login_wit_touch_id_string">Login wit touch ID</string>
+</resources>
