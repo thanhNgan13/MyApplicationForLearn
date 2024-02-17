@@ -6,6 +6,8 @@ import android.os.Parcelable;
 public class ItemNote implements Parcelable {
     private String itemNameTitle, itemNameContent, itemNameDateCreate;
 
+    private boolean isSelected = false;
+
     // Constructor
     public ItemNote(String itemNameTitle, String itemNameContent, String itemNameDateCreate) {
         this.itemNameTitle = itemNameTitle;
@@ -28,6 +30,10 @@ public class ItemNote implements Parcelable {
 
     public String getItemNameDateCreate() {
         return itemNameDateCreate;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
     // Parcelable implementation
@@ -71,5 +77,9 @@ public class ItemNote implements Parcelable {
 
     public void setDateCreate(String modifiedDateCreate) {
         this.itemNameDateCreate = modifiedDateCreate;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

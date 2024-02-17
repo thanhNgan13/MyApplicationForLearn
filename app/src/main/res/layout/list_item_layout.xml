@@ -9,11 +9,13 @@
     >
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
+        android:background="@drawable/rounded_corners"
         android:orientation="vertical"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +30,7 @@
             android:text="Tiêu đề"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
-             />
+            android:textStyle="bold" />
 
         <!-- Space giữa -->
         <Space
@@ -43,9 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:text="Không có văn bản"
-            />
+            android:textColor="@color/black" />
 
         <!-- Space giữa -->
         <Space
@@ -61,7 +61,15 @@
             android:layout_weight="1"
             android:text="Ngày tạo"
             android:textColor="@color/black"
-            android:textSize="12sp"
-             />
+            android:textSize="12sp" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBoxDeleteNote"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,4 +28,11 @@ public class NoteViewModel extends ViewModel {
     public void delete(int position) {
         listNote.remove(position);
     }
+
+    // method show checkbox
+    public void showCheckBox(boolean isShow) {
+        for (ItemNote itemNote : listNote) {
+            itemNote.setSelected(isShow);
+        }
+    }
 }

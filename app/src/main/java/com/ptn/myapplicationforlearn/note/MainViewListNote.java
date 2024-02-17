@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,7 +51,9 @@ public class MainViewListNote extends AppCompatActivity {
         listViewNote = findViewById(R.id.lvNote);
         btnAddNote.bringToFront();
 
+        // Get ViewModel
         noteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
+        // Get list note from ViewModel
         CustomListAdapter adapter = new CustomListAdapter(this, noteViewModel.getListNote());
         listViewNote.setAdapter(adapter);
 
@@ -67,6 +71,14 @@ public class MainViewListNote extends AppCompatActivity {
             activityLauncher.launch(intent); // Sử dụng ActivityResultLauncher
         });
 
+        listViewNote.setOnItemLongClickListener((parent, view, position, id) -> {
+            // Hiển thị checkbox để xóa
+            adapter.setShowCheckbox(true);
+            noteViewModel.showCheckBox(false);
+            ((BaseAdapter) listViewNote.getAdapter()).notifyDataSetChanged();
+            return true;
+        });
+
         activityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -81,7 +93,6 @@ public class MainViewListNote extends AppCompatActivity {
                     else if (result.getResultCode() == MainViewListNote.ADD_NEW_NOTE && result.getData() != null) {
                         ItemNote returnedNote = result.getData().getParcelableExtra("RETURN_NEW_NOTE");
                         noteViewModel.add(returnedNote);
-
                         ((BaseAdapter) listViewNote.getAdapter()).notifyDataSetChanged();
                     }
                 });

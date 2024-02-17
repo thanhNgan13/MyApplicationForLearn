@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ public class CustomListAdapter  extends BaseAdapter {
     private List<ItemNote> listData;
     private LayoutInflater layoutInflater;
     private Context context;
+
+    private boolean isShowCheckBox = false;
 
     public CustomListAdapter(Context aContext,  List<ItemNote> listData) {
         this.context = aContext;
@@ -49,6 +52,7 @@ public class CustomListAdapter  extends BaseAdapter {
             holder.itemNameTitle = (TextView) convertView.findViewById(R.id.txtTitleNote);
             holder.itemNameContent = (TextView) convertView.findViewById(R.id.txtContentNote);
             holder.itemNameDateCreate = (TextView) convertView.findViewById(R.id.txtDateCreateNote);
+            holder.checkBoxDeleteNote = (CheckBox) convertView.findViewById(R.id.checkBoxDeleteNote);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -59,7 +63,7 @@ public class CustomListAdapter  extends BaseAdapter {
         holder.itemNameTitle.setText(itemdraw.getItemNameTitle());
         holder.itemNameContent.setText(itemdraw.getItemNameContent());
         holder.itemNameDateCreate.setText(itemdraw.getItemNameDateCreate());
-
+        holder.checkBoxDeleteNote.setVisibility(isShowCheckBox ? View.VISIBLE : View.GONE);
         return convertView;
     }
 
@@ -78,15 +82,15 @@ public class CustomListAdapter  extends BaseAdapter {
         return parts[0];
     }
 
-    public int getMipmapResIdByName(String resName)  {
-        String pkgName = context.getPackageName();
-        int resID = context.getResources().getIdentifier(resName , "drawable", pkgName);
-        Log.i("CustomListView", "Res Name: "+ resName+"==> Res ID = "+ resID);
-        return resID;
+
+    public void setShowCheckbox(boolean show) {
+        this.isShowCheckBox = show;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {
         TextView itemNameTitle, itemNameContent, itemNameDateCreate;
+        CheckBox checkBoxDeleteNote;
         LinearLayout linearLayout;
     }
 
