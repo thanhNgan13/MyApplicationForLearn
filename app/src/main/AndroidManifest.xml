@@ -13,20 +13,10 @@
         android:theme="@style/Theme.MyApplicationForLearn"
         tools:targetApi="31">
         <activity
-            android:name=".ContactApp.ChangeContact"
-            android:exported="false" />
-        <activity
-            android:name=".ContactApp.DetailContact"
-            android:exported="false" />
-        <activity
-            android:name=".ContactApp.ListContact"
-            android:exported="false" />
-        <activity
-            android:name=".note.DetailsNote"
-            android:exported="false" />
-        <activity
-            android:name=".note.MainViewListNote"
-            android:exported="true">
+            android:name=".ContactApp.MainListContact"
+            android:exported="true"
+            android:label="@string/title_activity_main_list_contact"
+            android:theme="@style/Theme.MyApplicationForLearn.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,12 +24,30 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ContactApp.ChangeContact"
+            android:exported="false" />
+        <activity
+            android:name=".ContactApp.DetailContact"
+            android:exported="false" />
+        <activity
+            android:name=".ContactApp.ListContact"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".note.DetailsNote"
+            android:exported="false" />
+        <activity
+            android:name=".note.MainViewListNote"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name=".BaiTap2"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
     </application>
 
 </manifest>

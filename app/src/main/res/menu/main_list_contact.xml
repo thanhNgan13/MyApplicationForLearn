@@ -8,10 +8,8 @@
         android:id="@+id/search"
         android:icon="@drawable/search"
         app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:title="Search"
         />
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Item" />
+
 </menu>

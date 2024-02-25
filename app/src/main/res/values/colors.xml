@@ -10,14 +10,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="lavender">#8692f7</color>
 
-    <color name="_bg__create_an_account_ek2_color">#FFFFFF</color>
-    <color name="login_color">#000000</color>
-    <color name="or_connect_with_color">#736F6F</color>
-    <color name="rectangle_5_color">#0386D0</color>
-    <color name="by_signing_in_you_are_agreeing_our_term_and_privacy_policy_color">#6B5E5E</color>
-    <color name="login_ek2_color">#036BB9</color>
-    <color name="email_address_color">#A5A5A5</color>
-    <color name="rectangle_6_color">#F9F9F9</color>
-    <color name="ellipse_2_color">#ffffff</color>
+
+
 </resources>
