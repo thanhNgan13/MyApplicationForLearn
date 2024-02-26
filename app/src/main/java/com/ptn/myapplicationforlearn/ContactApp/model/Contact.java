@@ -21,10 +21,10 @@ public class Contact implements Parcelable {
         this.emailType = emailType;
     }
 
-    public Contact(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Contact() {
     }
+
+
 
     protected Contact(Parcel in) {
         firstName = in.readString();

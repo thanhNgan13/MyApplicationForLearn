@@ -13,7 +13,15 @@ import javax.crypto.Cipher;
 
 public class HomeViewModel extends ViewModel {
 
+    private MutableLiveData<List<Contact>> contactsLiveData;
+
     private final List<Contact> contactsList = new ArrayList<>();
+
+    public HomeViewModel() {
+        contactsLiveData = new MutableLiveData<>();
+        contactsLiveData.setValue(new ArrayList<>()); // Khởi tạo với danh sách rỗng
+
+    }
 
     public List<Contact> getContactsList () {
         return contactsList;
@@ -22,9 +30,6 @@ public class HomeViewModel extends ViewModel {
     public void add(Contact contact) {
         contactsList.add(contact);
     }
-
-
-    private MutableLiveData<List<Contact>> contactsLiveData = new MutableLiveData<>();
 
     public void setContacts(List<Contact> contacts) {
         contactsLiveData.setValue(contacts);

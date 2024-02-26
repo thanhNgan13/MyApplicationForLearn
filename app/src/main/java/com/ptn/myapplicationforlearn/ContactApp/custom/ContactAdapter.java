@@ -1,12 +1,14 @@
 package com.ptn.myapplicationforlearn.ContactApp.custom;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
@@ -18,9 +20,21 @@ import java.util.Random;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
     private List<Contact> contactsList;
+    private OnClickListener onClickListener;
+
 
     public ContactAdapter(List<Contact> contactsList) {
         this.contactsList = contactsList;
+    }
+
+    // method for filtering our recyclerview items.
+    public void filterList(ArrayList<Contact> filterlist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        contactsList = filterlist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -36,11 +50,31 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         Contact contact = contactsList.get(position);
         holder.contactName.setText(contact.getFirstName() + " " + contact.getLastName());
         holder.contactInitialsCircle.setText(contact.getFirstName().substring(0, 1));
+
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onClickListener != null) {
+                    onClickListener.onClick(position, contact);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return contactsList.size();
+    }
+
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, Contact model);
     }
 
 
@@ -53,7 +87,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             super(view);
             contactInitialsCircle = view.findViewById(R.id.contact_initials_circle);
             contactName = view.findViewById(R.id.contact_name);
+
+   ;
+
         }
+
+
     }
 
 
