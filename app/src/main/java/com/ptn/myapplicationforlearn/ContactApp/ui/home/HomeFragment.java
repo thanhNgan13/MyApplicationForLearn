@@ -1,5 +1,9 @@
 package com.ptn.myapplicationforlearn.ContactApp.ui.home;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -7,6 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 
 import android.widget.TextView;
@@ -14,13 +22,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.ptn.myapplicationforlearn.ContactApp.DetailContact;
+import com.ptn.myapplicationforlearn.ContactApp.custom.ContactAdapter;
+import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.R;
 import com.ptn.myapplicationforlearn.databinding.FragmentHomeBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
 
+
+    public static final int ADD_NEW_CONTACT = 1001;
+    public static final int CHANGE_CONTACT = 1002;
+
     private FragmentHomeBinding binding;
+    private HomeViewModel homeViewModel;
+    private ContactAdapter contactAdapter;
+
+    private ArrayList<Contact> contactList;
+
+    ActivityResultLauncher<Intent> activityLauncher;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,16 +54,40 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         requireActivity().setTitle("Contact");
 
-        HomeViewModel homeViewModel =
+        homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        // Tạo sự kiện cho nút add
+        binding.btnAddContact.bringToFront();
+        binding.btnAddContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DetailContact.class);
+                activityLauncher.launch(intent); // Sử dụng activityLauncher ở đây
+            }
+        });
+
+        // Khởi tạo Adapter và thiết lập RecyclerView
+        contactAdapter = new ContactAdapter(homeViewModel.getContactsList()); // Bạn có thể truyền danh sách rỗng ở đây hoặc danh sách từ ViewModel
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(contactAdapter);
+
+        activityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == ADD_NEW_CONTACT && result.getData() != null) {
+                        Contact contact = (Contact) result.getData().getParcelableExtra ("NEW_CONTACT");
+                        homeViewModel.add(contact);
+                        contactAdapter.notifyDataSetChanged();                    }
+                });
+
+
         return root;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -72,5 +122,7 @@ public class HomeFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 
 }

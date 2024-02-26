@@ -3,14 +3,20 @@ package com.ptn.myapplicationforlearn.ContactApp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
+import com.ptn.myapplicationforlearn.ContactApp.ui.home.HomeFragment;
 import com.ptn.myapplicationforlearn.R;
+import com.ptn.myapplicationforlearn.note.MainViewListNote;
 
 public class DetailContact extends AppCompatActivity {
 
@@ -70,17 +76,35 @@ public class DetailContact extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_contact_new, menu);
-
         // Xử lý sự kiện khi nút Save được nhấn
         MenuItem saveItem = menu.findItem(R.id.save);
         saveItem.setOnMenuItemClickListener(item -> {
+            // Lấy dữ liệu từ các View
+            String firstName = ((EditText)findViewById(R.id.editTextFirstName)).getText().toString();
+            String lastName = ((EditText)findViewById(R.id.editTextLastName)).getText().toString();
+            String phone = ((EditText)findViewById(R.id.editTextPhone)).getText().toString();
+            String email = ((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+
+
+            // Kiểm tra dữ liệu
+            if (firstName.isEmpty() || lastName.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            // Tạo đối tượng Contact mới
+            Contact newContact = new Contact(firstName, lastName);
+            // Tạo Intent để gửi đối tượng Contact trở lại
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("NEW_CONTACT", newContact);
+            setResult(HomeFragment.ADD_NEW_CONTACT, returnIntent);
+            finish(); // Đóng Activity này và quay trở lại Activity trước đó
 
             return true;
         });
 
         return true;
     }
-
 
 
 }

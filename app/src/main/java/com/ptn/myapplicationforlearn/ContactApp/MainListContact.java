@@ -23,7 +23,6 @@ import com.ptn.myapplicationforlearn.databinding.ActivityMainListContactBinding;
 
 public class MainListContact extends AppCompatActivity {
 
-
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainListContactBinding binding;
 
@@ -32,17 +31,12 @@ public class MainListContact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         binding = ActivityMainListContactBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMainListContact.toolbar);
-        binding.appBarMainListContact.addContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainListContact.this, DetailContact.class);
-                startActivity(intent);
-            }
-        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each

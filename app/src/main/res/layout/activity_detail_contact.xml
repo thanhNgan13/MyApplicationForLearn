@@ -114,6 +114,7 @@
 
 
                 <EditText
+                    android:id="@+id/editTextFirstName"
                     android:layout_marginTop="20dp"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -121,7 +122,6 @@
                     android:textColor="@color/black"
                     android:inputType="text"
                     android:textColorHint="#B3AEAE"
-
                     android:hint="FirstName" />
 
                />
@@ -154,8 +154,9 @@
 
 
                 <EditText
+
                     android:layout_marginTop="20dp"
-                    android:id="@+id/editTextText2"
+                    android:id="@+id/editTextLastName"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -194,6 +195,7 @@
 
 
                 <EditText
+                    android:id="@+id/editTextPhone"
                     android:layout_marginTop="20dp"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -275,6 +277,7 @@
 
 
                 <EditText
+                    android:id="@+id/editTextEmail"
                     android:layout_marginTop="20dp"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"

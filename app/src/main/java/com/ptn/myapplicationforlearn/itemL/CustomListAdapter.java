@@ -67,21 +67,6 @@ public class CustomListAdapter  extends BaseAdapter {
         return convertView;
     }
 
-    public static String capitalizeFirstLetter(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-        return Character.toUpperCase(input.charAt(0)) + input.substring(1).toLowerCase();
-    }
-
-    public static String getSubstringBeforeUnderscore(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-        String[] parts = input.split("_");
-        return parts[0];
-    }
-
 
     public void setShowCheckbox(boolean show) {
         this.isShowCheckBox = show;
