@@ -1,4 +1,4 @@
-package com.ptn.myapplicationforlearn.itemL;
+package com.ptn.myapplicationforlearn.NoteApp.note.itemL;
 
 import android.os.Parcel;
 import android.os.Parcelable;

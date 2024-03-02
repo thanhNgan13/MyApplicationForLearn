@@ -3,13 +3,24 @@ package com.ptn.myapplicationforlearn.ContactApp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Contact implements Parcelable {
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    String firstName;
-    String lastName;
+@Entity
+
+public class Contact implements Parcelable {
+    @PrimaryKey
     String phoneNumber;
+    @ColumnInfo
+    String firstName;
+    @ColumnInfo
+    String lastName;
+    @ColumnInfo
     String email;
+    @ColumnInfo
     String phoneType;
+    @ColumnInfo
     String emailType;
 
     public Contact(String firstName, String lastName, String phoneNumber, String email, String phoneType, String emailType) {

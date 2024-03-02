@@ -35,10 +35,10 @@
 
         </activity>
         <activity
-            android:name=".note.DetailsNote"
+            android:name=".NoteApp.note.DetailsNote"
             android:exported="false" />
         <activity
-            android:name=".note.MainViewListNote"
+            android:name=".NoteApp.note.MainViewListNote"
             android:exported="true">
 
         </activity>

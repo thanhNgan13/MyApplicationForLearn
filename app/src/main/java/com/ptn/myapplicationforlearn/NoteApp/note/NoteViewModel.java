@@ -1,8 +1,8 @@
-package com.ptn.myapplicationforlearn.note;
+package com.ptn.myapplicationforlearn.NoteApp.note;
 
 import androidx.lifecycle.ViewModel;
 
-import com.ptn.myapplicationforlearn.itemL.ItemNote;
+import com.ptn.myapplicationforlearn.NoteApp.note.itemL.ItemNote;
 
 import java.util.ArrayList;
 import java.util.List;
