@@ -3,6 +3,7 @@ package com.ptn.myapplicationforlearn.ContactApp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,6 +12,7 @@ import androidx.room.PrimaryKey;
 
 public class Contact implements Parcelable {
     @PrimaryKey
+    @NonNull
     String phoneNumber;
     @ColumnInfo
     String firstName;
@@ -22,6 +24,19 @@ public class Contact implements Parcelable {
     String phoneType;
     @ColumnInfo
     String emailType;
+
+    @ColumnInfo
+    String image;
+
+    public Contact(String firstName, String lastName, String phoneNumber, String email, String phoneType, String emailType, String image) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.phoneType = phoneType;
+        this.emailType = emailType;
+        this.image = image;
+    }
 
     public Contact(String firstName, String lastName, String phoneNumber, String email, String phoneType, String emailType) {
         this.firstName = firstName;
@@ -44,6 +59,7 @@ public class Contact implements Parcelable {
         email = in.readString();
         phoneType = in.readString();
         emailType = in.readString();
+        image = in.readString();
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {
@@ -71,6 +87,7 @@ public class Contact implements Parcelable {
         dest.writeString(email);
         dest.writeString(phoneType);
         dest.writeString(emailType);
+        dest.writeString(image);
     }
 
     // Getters and Setters for your fields
@@ -121,6 +138,14 @@ public class Contact implements Parcelable {
 
     public void setEmailType(String emailType) {
         this.emailType = emailType;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
 }

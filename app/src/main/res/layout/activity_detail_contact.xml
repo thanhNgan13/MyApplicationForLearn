@@ -45,7 +45,8 @@
                 android:src="@drawable/user" /> <!-- Replace with your image placeholder -->
 
             <ImageButton
-                android:id="@+id/addPhotoButton"
+                android:id="@+id/btnAddPhotoContact"
+                android:onClick="btnOpenImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

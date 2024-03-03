@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ptn.myapplicationforlearn.ContactApp.DetailContact;
-import com.ptn.myapplicationforlearn.ContactApp.custom.ContactAdapter;
+import com.ptn.myapplicationforlearn.ContactApp.model.ContactAdapter;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.R;
 import com.ptn.myapplicationforlearn.databinding.FragmentHomeBinding;

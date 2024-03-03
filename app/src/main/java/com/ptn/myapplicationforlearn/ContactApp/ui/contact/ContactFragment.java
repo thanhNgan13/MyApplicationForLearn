@@ -1,6 +1,7 @@
 package com.ptn.myapplicationforlearn.ContactApp.ui.contact;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -19,8 +19,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ptn.myapplicationforlearn.ContactApp.DetailContact;
-import com.ptn.myapplicationforlearn.ContactApp.custom.ContactAdapter;
+import com.ptn.myapplicationforlearn.ContactApp.model.AppDatabase;
+import com.ptn.myapplicationforlearn.ContactApp.model.ContactAdapter;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
+import com.ptn.myapplicationforlearn.ContactApp.model.ContactDAO;
 import com.ptn.myapplicationforlearn.R;
 import com.ptn.myapplicationforlearn.databinding.FragmentContactBinding;
 
@@ -53,6 +55,16 @@ public class ContactFragment extends Fragment {
         contactAdapter = new ContactAdapter(contactList); // Bạn có thể truyền danh sách rỗng ở đây hoặc danh sách từ ViewModel
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(contactAdapter);
+
+
+        contactViewModel.getContactsLiveData().observe(getViewLifecycleOwner(), contacts -> {
+            // Cập nhật contactList với dữ liệu mới
+            contactList.clear();
+            contactList.addAll(contacts);
+            // Thông báo cho adapter về sự thay đổi dữ liệu để cập nhật RecyclerView
+            contactAdapter.notifyDataSetChanged();
+        });
+
 
         binding.btnAddNewContact.bringToFront();
         binding.btnAddNewContact.setOnClickListener(new View.OnClickListener() {

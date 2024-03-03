@@ -1,22 +1,17 @@
-package com.ptn.myapplicationforlearn.ContactApp.custom;
+package com.ptn.myapplicationforlearn.ContactApp.model;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
     private List<Contact> contactsList;
@@ -50,8 +45,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         Contact contact = contactsList.get(position);
         holder.contactName.setText(contact.getFirstName() + " " + contact.getLastName());
         holder.contactInitialsCircle.setText(contact.getFirstName().substring(0, 1));
-
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

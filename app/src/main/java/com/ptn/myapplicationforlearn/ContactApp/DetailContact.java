@@ -2,19 +2,31 @@ package com.ptn.myapplicationforlearn.ContactApp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ptn.myapplicationforlearn.ContactApp.helper.ConverImage;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.ContactApp.ui.contact.ContactFragment;
+import com.ptn.myapplicationforlearn.ContactApp.ui.contact.ContactViewModel;
 import com.ptn.myapplicationforlearn.R;
+
+import java.io.IOException;
 
 public class DetailContact extends AppCompatActivity {
 
@@ -27,6 +39,9 @@ public class DetailContact extends AppCompatActivity {
     Contact contactChange;
     int positionChange;
     ArrayAdapter<String> adapterItemsPhoneType, adapterItemsEmailType;
+
+    ImageView contactImage;
+    ImageButton btnAddPhotoContact;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +55,13 @@ public class DetailContact extends AppCompatActivity {
             getSupportActionBar().setTitle("New Contact"); // Thay "Your New Title" bằng tiêu đề bạn muốn
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+
+        ContactViewModel contactViewModel =
+                new ViewModelProvider(this).get(ContactViewModel.class);
+
+        contactImage = findViewById(R.id.contactImage);
+        btnAddPhotoContact = findViewById(R.id.btnAddPhotoContact);
 
         autoCompleteTextViewPhoneType = findViewById(R.id.autoCompleteTextViewPhone);
         autoCompleteTextViewEmailType = findViewById(R.id.autoCompleteTextViewEmail);
@@ -72,6 +94,7 @@ public class DetailContact extends AppCompatActivity {
             ((EditText)findViewById(R.id.editTextEmail)).setText(contactChange.getEmail());
             autoCompleteTextViewPhoneType.setText(contactChange.getPhoneType(), false);
             autoCompleteTextViewEmailType.setText(contactChange.getEmailType(), false);
+            contactImage.setImageBitmap(ConverImage.convertStringToBitmap(contactChange.getImage()));
         }
     }
 
@@ -132,10 +155,7 @@ public class DetailContact extends AppCompatActivity {
     }
 
     void returnResultForIntent(Contact contact, int mode) {
-
         // Lấy dữ liệu từ các View
-
-
         Intent returnIntent = new Intent();
         contact.setFirstName(((EditText)findViewById(R.id.editTextFirstName)).getText().toString());
         contact.setLastName(((EditText)findViewById(R.id.editTextLastName)).getText().toString());
@@ -143,6 +163,7 @@ public class DetailContact extends AppCompatActivity {
         contact.setEmail(((EditText)findViewById(R.id.editTextEmail)).getText().toString());
         contact.setPhoneType(autoCompleteTextViewPhoneType.getText().toString());
         contact.setEmailType(autoCompleteTextViewEmailType.getText().toString());
+        contact.setImage(ConverImage.convertBitmapToString(contactImage));
 
         if (mode == ContactFragment.ADD_NEW_CONTACT) {
             returnIntent.putExtra("NEW_CONTACT", contact);
@@ -154,6 +175,28 @@ public class DetailContact extends AppCompatActivity {
             setResult(ContactFragment.CHANGE_CONTACT, returnIntent);
         }
         finish();
+    }
+
+
+    public void btnOpenImage(View v) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 3);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            try {
+                Bitmap selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                contactImage.setImageBitmap(selectedBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("SetImage", "Not Success: " + e.getMessage());
+
+            }
+        }
     }
 
 

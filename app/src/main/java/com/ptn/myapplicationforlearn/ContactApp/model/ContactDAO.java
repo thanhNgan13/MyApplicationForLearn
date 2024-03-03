@@ -1,23 +1,22 @@
 package com.ptn.myapplicationforlearn.ContactApp.model;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
-public interface Contact_DAO {
+public interface ContactDAO {
+    @Insert
     void insertContact(Contact... contacts);
+    @Update
     void updateContact(Contact contact);
+    @Delete
     void deleteContact(Contact contact);
-    void deleteAllContact();
     @Query("SELECT * FROM Contact")
     List<Contact> getAllContact();
-    void getContactById(int id);
-    void getContactByName(String name);
-    void getContactByPhone(String phone);
-    void getContactByEmail(String email);
-    void getContactByPhoneType(String phoneType);
-    void getContactByEmailType(String emailType);
 
 }
