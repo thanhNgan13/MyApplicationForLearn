@@ -18,5 +18,8 @@ public interface ContactDAO {
     void deleteContact(Contact contact);
     @Query("SELECT * FROM Contact")
     List<Contact> getAllContact();
+    @Query("SELECT COUNT(*) FROM Contact WHERE phoneNumber = :phoneNumber")
+    int countContactsByPhoneNumber(String phoneNumber);
+
 
 }

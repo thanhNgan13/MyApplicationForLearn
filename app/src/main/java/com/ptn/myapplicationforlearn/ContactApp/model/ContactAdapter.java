@@ -3,11 +3,13 @@ package com.ptn.myapplicationforlearn.ContactApp.model;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ptn.myapplicationforlearn.ContactApp.helper.ConvertImage;
 import com.ptn.myapplicationforlearn.R;
 
 import java.util.ArrayList;
@@ -46,6 +48,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         holder.contactName.setText(contact.getFirstName() + " " + contact.getLastName());
         holder.contactInitialsCircle.setText(contact.getFirstName().substring(0, 1));
 
+        if(contact.getImage() != null) {
+            holder.contactInitialsCircle.setVisibility(View.GONE);
+            holder.contactImage.setVisibility(View.VISIBLE);
+            holder.contactImage.setImageBitmap(ConvertImage.convertStringToBitmap(contact.getImage()));
+        }
+        else {
+
+            holder.contactInitialsCircle.setVisibility(View.VISIBLE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,13 +88,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         public TextView contactInitialsCircle;
         public TextView contactName;
 
+        public ImageView contactImage;
+
         public ContactViewHolder(View view) {
             super(view);
             contactInitialsCircle = view.findViewById(R.id.contact_initials_circle);
             contactName = view.findViewById(R.id.contact_name);
+            contactImage = view.findViewById(R.id.contact_image)
 
    ;
-
         }
 
 

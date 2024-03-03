@@ -1,7 +1,6 @@
 package com.ptn.myapplicationforlearn.ContactApp.ui.contact;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,11 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.ptn.myapplicationforlearn.ContactApp.DetailContact;
-import com.ptn.myapplicationforlearn.ContactApp.model.AppDatabase;
+import com.ptn.myapplicationforlearn.ContactApp.ChangeContact;
 import com.ptn.myapplicationforlearn.ContactApp.model.ContactAdapter;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
-import com.ptn.myapplicationforlearn.ContactApp.model.ContactDAO;
 import com.ptn.myapplicationforlearn.R;
 import com.ptn.myapplicationforlearn.databinding.FragmentContactBinding;
 
@@ -66,11 +63,13 @@ public class ContactFragment extends Fragment {
         });
 
 
+
+
         binding.btnAddNewContact.bringToFront();
         binding.btnAddNewContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), DetailContact.class);
+                Intent intent = new Intent(getContext(), ChangeContact.class);
                 activityLauncher.launch(intent);
             }
         });
@@ -78,7 +77,7 @@ public class ContactFragment extends Fragment {
         contactAdapter.setOnClickListener(new ContactAdapter.OnClickListener() {
             @Override
             public void onClick(int position, Contact model) {
-                Intent intent = new Intent(getContext(), DetailContact.class);
+                Intent intent = new Intent(getContext(), ChangeContact.class);
                 intent.putExtra("CHANGE_CONTACT_REQUEST", model);
                 intent.putExtra("POSITION_CONTACT_REQUEST", position);
                 activityLauncher.launch(intent);
@@ -97,7 +96,7 @@ public class ContactFragment extends Fragment {
                         Contact contact = (Contact) result.getData().getParcelableExtra("CHANGE_CONTACT_SEND");
                         int position = result.getData().getIntExtra("POSITION_CONTACT_SEND", -1);
                         if (position != -1) {
-                            contactViewModel.changeContact(contact, position);
+                            contactViewModel.changeContact(contact);
                             contactAdapter.notifyDataSetChanged();
                         }
                     }

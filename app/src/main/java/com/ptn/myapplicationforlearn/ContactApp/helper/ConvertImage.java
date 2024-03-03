@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 
-public class ConverImage {
+public class ConvertImage {
 
     public static String convertBitmapToString(ImageView imageView) {
         try {

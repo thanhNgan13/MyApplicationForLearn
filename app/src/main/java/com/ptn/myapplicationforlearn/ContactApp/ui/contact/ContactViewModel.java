@@ -20,6 +20,11 @@ import java.util.List;
 public class ContactViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Contact>> contactsLiveData;
 
+    private MutableLiveData<String> toastMessage = new MutableLiveData<>();
+
+    public LiveData<String> getToastMessage() {
+        return toastMessage;
+    }
 
     private AppDatabase appDatabase;
     private ContactDAO contactDao;
@@ -43,10 +48,17 @@ public class ContactViewModel extends AndroidViewModel {
 
     public void addContact(Contact contact) {
         AsyncTask.execute(() -> {
-            contactDao.insertContact(contact); // Thêm mới contact vào database
-            // Sau khi thêm, cập nhật LiveData bằng cách lấy lại toàn bộ contacts từ database
-            List<Contact> contacts = contactDao.getAllContact(); // Giả sử đây là phương thức lấy tất cả contacts
-            contactsLiveData.postValue(contacts);
+            int count = contactDao.countContactsByPhoneNumber(contact.getPhoneNumber());
+            if (count == 0) {
+                contactDao.insertContact(contact); // Thêm mới contact vào database
+                // Sau khi thêm, cập nhật LiveData bằng cách lấy lại toàn bộ contacts từ database
+                List<Contact> contacts = contactDao.getAllContact(); // Giả sử đây là phương thức lấy tất cả contacts
+                contactsLiveData.postValue(contacts);
+            }
+            else {
+                toastMessage.postValue("Contact already exists");
+            }
+
         });
     }
 
@@ -55,10 +67,12 @@ public class ContactViewModel extends AndroidViewModel {
         return (ArrayList<Contact>) contactsLiveData.getValue();
     }
 
-    public void changeContact(Contact contact, int position) {
-        List<Contact> contacts = contactsLiveData.getValue();
-        contacts.set(position, contact);
-        contactsLiveData.setValue(contacts);
+    public void changeContact(Contact contact) {
+        AsyncTask.execute(() -> {
+            contactDao.updateContact(contact);
+            List<Contact> contacts = contactDao.getAllContact(); // Giả sử đây là phương thức lấy tất cả contacts
+            contactsLiveData.postValue(contacts);
+        });
     }
 
     public void deleteContact(int position) {

@@ -20,7 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.ptn.myapplicationforlearn.ContactApp.helper.ConverImage;
+import com.ptn.myapplicationforlearn.ContactApp.helper.ConvertImage;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.ContactApp.ui.contact.ContactFragment;
 import com.ptn.myapplicationforlearn.ContactApp.ui.contact.ContactViewModel;
@@ -28,7 +28,7 @@ import com.ptn.myapplicationforlearn.R;
 
 import java.io.IOException;
 
-public class DetailContact extends AppCompatActivity {
+public class ChangeContact extends AppCompatActivity {
 
     String[] itemPhoneType = {"Mobile", "Home", "Work", "Main", "Home Fax", "Work Fax", "Pager", "Other"};
 
@@ -94,8 +94,16 @@ public class DetailContact extends AppCompatActivity {
             ((EditText)findViewById(R.id.editTextEmail)).setText(contactChange.getEmail());
             autoCompleteTextViewPhoneType.setText(contactChange.getPhoneType(), false);
             autoCompleteTextViewEmailType.setText(contactChange.getEmailType(), false);
-            contactImage.setImageBitmap(ConverImage.convertStringToBitmap(contactChange.getImage()));
+            contactImage.setImageBitmap(ConvertImage.convertStringToBitmap(contactChange.getImage()));
         }
+
+
+        contactViewModel.getToastMessage().observe(this, message -> {
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -136,15 +144,11 @@ public class DetailContact extends AppCompatActivity {
             String firstName = ((EditText)findViewById(R.id.editTextFirstName)).getText().toString();
             String lastName = ((EditText)findViewById(R.id.editTextLastName)).getText().toString();
             String phone = ((EditText)findViewById(R.id.editTextPhone)).getText().toString();
-
-
-
             // Kiểm tra dữ liệu
             if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty()){
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return false;
             }
-
             returnResultForIntent(new Contact(), ContactFragment.ADD_NEW_CONTACT);
 
 
@@ -163,8 +167,7 @@ public class DetailContact extends AppCompatActivity {
         contact.setEmail(((EditText)findViewById(R.id.editTextEmail)).getText().toString());
         contact.setPhoneType(autoCompleteTextViewPhoneType.getText().toString());
         contact.setEmailType(autoCompleteTextViewEmailType.getText().toString());
-        contact.setImage(ConverImage.convertBitmapToString(contactImage));
-
+        contact.setImage(ConvertImage.convertBitmapToString(contactImage));
         if (mode == ContactFragment.ADD_NEW_CONTACT) {
             returnIntent.putExtra("NEW_CONTACT", contact);
             setResult(ContactFragment.ADD_NEW_CONTACT, returnIntent);
