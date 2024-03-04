@@ -1,5 +1,8 @@
 package com.ptn.myapplicationforlearn.ContactApp;
 
+import static com.ptn.myapplicationforlearn.ContactApp.ui.contact.ContactFragment.CONTACT_CHANGE_REQUEST;
+import static com.ptn.myapplicationforlearn.ContactApp.ui.contact.ContactFragment.CONTACT_CHANGE_SEND;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,7 +31,7 @@ import com.ptn.myapplicationforlearn.R;
 
 import java.io.IOException;
 
-public class ChangeContact extends AppCompatActivity {
+public class ChangeAddContact extends AppCompatActivity {
 
     String[] itemPhoneType = {"Mobile", "Home", "Work", "Main", "Home Fax", "Work Fax", "Pager", "Other"};
 
@@ -37,22 +40,25 @@ public class ChangeContact extends AppCompatActivity {
     Toolbar toolbar;
 
     Contact contactChange;
-    int positionChange;
     ArrayAdapter<String> adapterItemsPhoneType, adapterItemsEmailType;
 
-    ImageView contactImage;
+    ImageView contactImage, contactImageDefault;
     ImageButton btnAddPhotoContact;
+
+    boolean isCheckSelectImage = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_contact);
+        setContentView(R.layout.contact_change_add_activity);
 
-        toolbar = findViewById(R.id.toolbarDetailContact); // Thay thế 'toolbar' bằng id của Toolbar trong layout của bạn
+        toolbar = findViewById(R.id.toolbarDetailContact);
         setSupportActionBar(toolbar);
 
         // Hiển thị nút quay lại
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("New Contact"); // Thay "Your New Title" bằng tiêu đề bạn muốn
+            getSupportActionBar().setTitle("Add Contact");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -61,6 +67,7 @@ public class ChangeContact extends AppCompatActivity {
                 new ViewModelProvider(this).get(ContactViewModel.class);
 
         contactImage = findViewById(R.id.contactImage);
+        contactImageDefault = findViewById(R.id.contactImageDefault);
         btnAddPhotoContact = findViewById(R.id.btnAddPhotoContact);
 
         autoCompleteTextViewPhoneType = findViewById(R.id.autoCompleteTextViewPhone);
@@ -83,19 +90,32 @@ public class ChangeContact extends AppCompatActivity {
             String item = adapterItemsEmailType.getItem(position);
         });
 
-        contactChange = getIntent().getParcelableExtra("CHANGE_CONTACT_REQUEST");
-        positionChange = getIntent().getIntExtra("POSITION_CONTACT_REQUEST", -1);
+        contactChange = getIntent().getParcelableExtra(CONTACT_CHANGE_REQUEST);
 
         // Nếu có dữ liệu truyền qua thì hiển thị lên các View
         if (contactChange != null) {
-            ((EditText)findViewById(R.id.editTextFirstName)).setText(contactChange.getFirstName());
+            getSupportActionBar().setTitle("Change Contact");
+            ((EditText)findViewById(R.    id.editTextFirstName)).setText(contactChange.getFirstName());
             ((EditText)findViewById(R.id.editTextLastName)).setText(contactChange.getLastName());
             ((EditText)findViewById(R.id.editTextPhone)).setText(contactChange.getPhoneNumber());
             ((EditText)findViewById(R.id.editTextEmail)).setText(contactChange.getEmail());
             autoCompleteTextViewPhoneType.setText(contactChange.getPhoneType(), false);
             autoCompleteTextViewEmailType.setText(contactChange.getEmailType(), false);
             contactImage.setImageBitmap(ConvertImage.convertStringToBitmap(contactChange.getImage()));
+            contactImage.setVisibility(View.VISIBLE);
+            contactImageDefault.setVisibility(View.GONE);
+            if (contactChange.getImage() != null) {
+                contactImage.setImageBitmap(ConvertImage.convertStringToBitmap(contactChange.getImage()));
+                contactImageDefault.setVisibility(View.GONE);
+                contactImage.setVisibility(View.VISIBLE);
+            }
+            else {
+                contactImage.setImageResource(R.drawable.user_contact);
+                contactImageDefault.setVisibility(View.VISIBLE);
+                contactImage.setVisibility(View.GONE);
+            }
         }
+
 
 
         contactViewModel.getToastMessage().observe(this, message -> {
@@ -124,7 +144,7 @@ public class ChangeContact extends AppCompatActivity {
         // Xử lý sự kiện khi nút Save được nhấn
         MenuItem saveItem = menu.findItem(R.id.save);
         MenuItem changeItem = menu.findItem(R.id.change);
-        if (getIntent().getParcelableExtra("CHANGE_CONTACT_REQUEST") != null) {
+        if (getIntent().getParcelableExtra(CONTACT_CHANGE_REQUEST) != null) {
             saveItem.setVisible(false);
             changeItem.setVisible(true);
         }
@@ -133,12 +153,13 @@ public class ChangeContact extends AppCompatActivity {
             changeItem.setVisible(false);
         }
 
+        // Xử lý sự kiện khi nút Change được nhấn
         changeItem.setOnMenuItemClickListener(item -> {
-            returnResultForIntent(contactChange, ContactFragment.CHANGE_CONTACT);
-            return  true;
+            returnResultForIntent(contactChange, ContactFragment.CHANGE_CONTACT, "");
+            return true;
         });
 
-
+        // Xử lý sự kiện khi nút Save được nhấn
         saveItem.setOnMenuItemClickListener(item -> {
             // Lấy dữ liệu từ các View
             String firstName = ((EditText)findViewById(R.id.editTextFirstName)).getText().toString();
@@ -149,16 +170,14 @@ public class ChangeContact extends AppCompatActivity {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return false;
             }
-            returnResultForIntent(new Contact(), ContactFragment.ADD_NEW_CONTACT);
-
-
+            returnResultForIntent(new Contact(), ContactFragment.ADD_NEW_CONTACT, "");
             return true;
         });
 
         return true;
     }
 
-    void returnResultForIntent(Contact contact, int mode) {
+    void returnResultForIntent(Contact contact, int mode, String dataImage) {
         // Lấy dữ liệu từ các View
         Intent returnIntent = new Intent();
         contact.setFirstName(((EditText)findViewById(R.id.editTextFirstName)).getText().toString());
@@ -173,8 +192,7 @@ public class ChangeContact extends AppCompatActivity {
             setResult(ContactFragment.ADD_NEW_CONTACT, returnIntent);
         }
         else {
-            returnIntent.putExtra("CHANGE_CONTACT_SEND", contact);
-            returnIntent.putExtra("POSITION_CONTACT_SEND", positionChange);
+            returnIntent.putExtra(CONTACT_CHANGE_SEND, contact);
             setResult(ContactFragment.CHANGE_CONTACT, returnIntent);
         }
         finish();
@@ -184,6 +202,7 @@ public class ChangeContact extends AppCompatActivity {
     public void btnOpenImage(View v) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 3);
+        isCheckSelectImage = true;
     }
 
     @Override
@@ -194,6 +213,8 @@ public class ChangeContact extends AppCompatActivity {
             try {
                 Bitmap selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 contactImage.setImageBitmap(selectedBitmap);
+                contactImageDefault.setVisibility(View.GONE);
+                contactImage.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("SetImage", "Not Success: " + e.getMessage());

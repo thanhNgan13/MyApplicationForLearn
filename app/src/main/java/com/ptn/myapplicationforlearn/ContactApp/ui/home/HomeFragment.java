@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.ptn.myapplicationforlearn.ContactApp.ChangeContact;
+import com.ptn.myapplicationforlearn.ContactApp.ChangeAddContact;
 import com.ptn.myapplicationforlearn.ContactApp.model.ContactAdapter;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.R;
@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
         binding.btnAddContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ChangeContact.class);
+                Intent intent = new Intent(getContext(), ChangeAddContact.class);
                 activityLauncher.launch(intent); // Sử dụng activityLauncher ở đây
             }
         });

@@ -17,7 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.ptn.myapplicationforlearn.ContactApp.ChangeContact;
+import com.ptn.myapplicationforlearn.ContactApp.ChangeAddContact;
+import com.ptn.myapplicationforlearn.ContactApp.DetailContact;
 import com.ptn.myapplicationforlearn.ContactApp.model.ContactAdapter;
 import com.ptn.myapplicationforlearn.ContactApp.model.Contact;
 import com.ptn.myapplicationforlearn.R;
@@ -28,6 +29,15 @@ import java.util.ArrayList;
 public class ContactFragment extends Fragment {
     public static final int ADD_NEW_CONTACT = 1003;
     public static final int CHANGE_CONTACT = 1002;
+    public static final int DETAIL_CONTACT = 1005;
+
+    public static final String CONTACT_DETAIL_REQUEST = "CONTACT_DETAIL_REQUEST";
+    public static final String CONTACT_DETAIL_SEND = "CONTACT_DETAIL_SEND";
+
+    public static final String CONTACT_CHANGE_REQUEST = "CONTACT_CHANGE_REQUEST";
+
+    public static final String CONTACT_CHANGE_SEND = "CONTACT_CHANGE_SEND";
+
 
     private ContactAdapter contactAdapter;
 
@@ -63,27 +73,28 @@ public class ContactFragment extends Fragment {
         });
 
 
-
-
+        // Thiết lập sự kiện click cho nút thêm mới
         binding.btnAddNewContact.bringToFront();
         binding.btnAddNewContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ChangeContact.class);
+                Intent intent = new Intent(getContext(), ChangeAddContact.class);
                 activityLauncher.launch(intent);
             }
         });
 
+
+        // Thiết lập sự kiện click cho item trên RecyclerView
         contactAdapter.setOnClickListener(new ContactAdapter.OnClickListener() {
             @Override
-            public void onClick(int position, Contact model) {
-                Intent intent = new Intent(getContext(), ChangeContact.class);
-                intent.putExtra("CHANGE_CONTACT_REQUEST", model);
-                intent.putExtra("POSITION_CONTACT_REQUEST", position);
+            public void onClick(Contact model) {
+                Intent intent = new Intent(getContext(), DetailContact.class);
+                intent.putExtra(CONTACT_DETAIL_REQUEST, model);
                 activityLauncher.launch(intent);
             }
         });
 
+        // Khởi tạo ActivityResultLauncher để nhận kết quả trả về từ Activity
         activityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -91,14 +102,11 @@ public class ContactFragment extends Fragment {
                         Contact contact = (Contact) result.getData().getParcelableExtra("NEW_CONTACT");
                         contactViewModel.addContact(contact);
                         contactAdapter.notifyDataSetChanged();
-                    }
-                    else if (result.getResultCode() == CHANGE_CONTACT && result.getData() != null) {
-                        Contact contact = (Contact) result.getData().getParcelableExtra("CHANGE_CONTACT_SEND");
-                        int position = result.getData().getIntExtra("POSITION_CONTACT_SEND", -1);
-                        if (position != -1) {
-                            contactViewModel.changeContact(contact);
-                            contactAdapter.notifyDataSetChanged();
-                        }
+                    } else if (result.getResultCode() == DETAIL_CONTACT && result.getData() != null) {
+                        Contact contact = (Contact) result.getData().getParcelableExtra(CONTACT_DETAIL_SEND);
+                        contactViewModel.changeContact(contact);
+                        contactAdapter.notifyDataSetChanged();
+
                     }
                 });
 

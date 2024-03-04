@@ -12,6 +12,28 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
 
+    <array name="androidcolors">
+        <item>#F44336</item> <!-- red -->
+        <item>#E91E63</item> <!-- pink -->
+        <item>#9C27B0</item> <!-- purple -->
+        <item>#673AB7</item> <!-- deep purple -->
+        <item>#3F51B5</item> <!-- indigo -->
+        <item>#2196F3</item> <!-- blue -->
+        <item>#03A9F4</item> <!-- light blue -->
+        <item>#00BCD4</item> <!-- cyan -->
+        <item>#009688</item> <!-- teal -->
+        <item>#4CAF50</item> <!-- green -->
+        <item>#8BC34A</item> <!-- light green -->
+        <item>#CDDC39</item> <!-- lime -->
+        <item>#FFEB3B</item> <!-- yellow -->
+        <item>#FFC107</item> <!-- amber -->
+        <item>#FF9800</item> <!-- orange -->
+        <item>#FF5722</item> <!-- deep orange -->
+        <item>#795548</item> <!-- brown -->
+        <item>#9E9E9E</item> <!-- grey -->
+        <item>#607D8B</item> <!-- blue grey -->
+    </array>
+
 
 
 </resources>

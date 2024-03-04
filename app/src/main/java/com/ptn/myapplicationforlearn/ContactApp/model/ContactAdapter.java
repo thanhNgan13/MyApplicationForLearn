@@ -1,5 +1,6 @@
 package com.ptn.myapplicationforlearn.ContactApp.model;
 
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ptn.myapplicationforlearn.ContactApp.helper.ConvertImage;
@@ -38,7 +40,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.contact_custom_recycler_view, parent, false);
+                .inflate(R.layout.contact_custom_item_recycler_view, parent, false);
         return new ContactViewHolder(itemView);
     }
 
@@ -58,11 +60,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             holder.contactInitialsCircle.setVisibility(View.VISIBLE);
         }
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (onClickListener != null) {
-                    onClickListener.onClick(position, contact);
+                    onClickListener.onClick(contact);
                 }
             }
         });
@@ -79,7 +82,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     }
 
     public interface OnClickListener {
-        void onClick(int position, Contact model);
+        void onClick(Contact model);
     }
 
 
